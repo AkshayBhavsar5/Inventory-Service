@@ -5,10 +5,23 @@ const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
 const connectDB = require('./src/config/db');
 const errorMiddleware = require('./src/middlewares/error.middleware');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: ['http://localhost:5173'], // Added 127.0.0.1
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true,
+  }),
+);
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
 
 // Connect Database
 connectDB();
@@ -36,13 +49,15 @@ app.get('/health', (req, res) => {
 
 // 404 Handler
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.originalUrl} not found` });
+  res
+    .status(404)
+    .json({ success: false, message: `Route ${req.originalUrl} not found` });
 });
 
 // Global Error Handler
 app.use(errorMiddleware);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
