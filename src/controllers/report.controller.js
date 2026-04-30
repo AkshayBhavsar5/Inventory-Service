@@ -1,5 +1,3 @@
-report.controller.js;
-
 const reportService = require('../services/report.service');
 const { sendSuccess } = require('../utils/response');
 

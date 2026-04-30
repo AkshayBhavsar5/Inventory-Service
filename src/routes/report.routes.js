@@ -9,8 +9,11 @@ router.use(protect);
 // GET /api/reports/overview?startDate=&endDate=
 router.get('/overview', reportController.getOverview);
 
-// GET /api/reports/product/:id?startDate=&endDate=
-router.get('/product/:id', reportController.getProductReport);
+// // GET /api/reports/product/:id?startDate=&endDate=
+// router.get('/product/:id', reportController.getProductReport);
+
+// GET /api/reports/best-selling?startDate=&endDate=
+router.get('/best-selling', reportController.getBestSellingProducts);
 
 // GET /api/reports/trends?startDate=&endDate=&groupBy=day|month|year
 router.get('/trends', reportController.getTrends);
